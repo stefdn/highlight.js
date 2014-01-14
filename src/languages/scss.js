@@ -4,10 +4,13 @@ Author: Kurt Emch <kurt@kurtemch.com>
 */
 function(hljs) {
   var IDENT_RE = '[a-zA-Z-][a-zA-Z0-9_-]*';
+  var VARIABLE = {
+    className: 'variable', begin: '\\$+[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*'
+  };
   var FUNCTION = {
     className: 'function',
     begin: IDENT_RE + '\\(', end: '\\)',
-    contains: ['self', hljs.NUMBER_MODE, hljs.APOS_STRING_MODE, hljs.QUOTE_STRING_MODE]
+    contains: ['self', VARIABLE, hljs.NUMBER_MODE, hljs.APOS_STRING_MODE, hljs.QUOTE_STRING_MODE]
   };
   var HEXCOLOR = {
     className: 'hexcolor', begin: '#[0-9A-Fa-f]+'
@@ -22,6 +25,7 @@ function(hljs) {
       endsWithParent: true, excludeEnd: true,
       contains: [
         FUNCTION,
+        VARIABLE,
         HEXCOLOR,
         hljs.NUMBER_MODE,
         hljs.QUOTE_STRING_MODE,
@@ -39,10 +43,11 @@ function(hljs) {
     contains: [
       hljs.C_LINE_COMMENT_MODE,
       hljs.C_BLOCK_COMMENT_MODE,
+      VARIABLE,
       {
         className: 'function',
         begin: IDENT_RE + '\\(', end: '\\)',
-        contains: ['self', hljs.NUMBER_MODE, hljs.APOS_STRING_MODE, hljs.QUOTE_STRING_MODE]
+        contains: ['self', VARIABLE, hljs.NUMBER_MODE, hljs.APOS_STRING_MODE, hljs.QUOTE_STRING_MODE]
       },
       {
         className: 'id', begin: '\\#[A-Za-z0-9_-]+',
@@ -83,6 +88,7 @@ function(hljs) {
         className: 'value',
         begin: ':', end: ';',
         contains: [
+          VARIABLE, 
           HEXCOLOR,
           hljs.NUMBER_MODE,
           hljs.QUOTE_STRING_MODE,
@@ -98,6 +104,7 @@ function(hljs) {
         keywords: 'mixin include extend for if else each while charset import debug media page content font-face namespace warn',
         contains: [
           FUNCTION,
+          VARIABLE,
           hljs.QUOTE_STRING_MODE,
           hljs.APOS_STRING_MODE,
           HEXCOLOR,
